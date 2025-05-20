@@ -57,6 +57,8 @@ import { reactive, ref, computed } from "vue";
 import axios from "axios";
 import BaseButton from "../components/base/BaseButton.vue";
 import BaseInput from "../components/base/BaseInput.vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 // ✅ 상태 정의: 하나의 객체로 통합
 const form = reactive({
@@ -143,6 +145,7 @@ const submit = async () => {
     console.log(res.data);
     if (res.data) {
       alert("회원 가입 성공");
+      router.push("/");
     } else {
       alert("회원 가입 실패");
     }

@@ -54,6 +54,12 @@ const pw = ref("");
 // 로그인 조건: 이메일과 비밀번호가 모두 입력되었을 때
 const canLogin = computed(() => email.value.length > 0 && pw.value.length > 0);
 
+const loginAction = () => {
+  localStorage.setItem("isLogin", "TRUE");
+  localStorage.setItem("email", email.value);
+  router.push("/home");
+};
+
 async function onLogin() {
   if (!canLogin.value) return;
 
@@ -70,11 +76,9 @@ async function onLogin() {
     if (res.data) {
       modal.open({
         title: "로그인 성공",
-        message: `${email} 로 로그인에 성공 했습니다`,
+        message: `${email.value} 로 로그인에 성공 했습니다`,
+        onConfirm: loginAction,
       });
-      localStorage.setItem("isLogin", "TRUE");
-      localStorage.setItem("email", email.value);
-      router.push("/home");
     } else {
       modal.open({
         title: "로그인 실패",
