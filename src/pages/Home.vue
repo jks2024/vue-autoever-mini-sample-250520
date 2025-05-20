@@ -33,9 +33,9 @@
       </button>
       <button
         class="bg-transparent border border-white text-white font-semibold py-6 rounded-lg"
-        @click="navigateTo('/Chat')"
+        @click="navigateTo('/news')"
       >
-        채팅
+        뉴스
       </button>
     </div>
   </div>

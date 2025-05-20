@@ -45,6 +45,8 @@ import { ref, computed } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 const router = useRouter();
+import { useModalStore } from "@/stores/modal";
+const modal = useModalStore();
 
 const email = ref("");
 const pw = ref("");
@@ -66,15 +68,24 @@ async function onLogin() {
       payload
     );
     if (res.data) {
-      console.log("로그인 성공:");
+      modal.open({
+        title: "로그인 성공",
+        message: `${email} 로 로그인에 성공 했습니다`,
+      });
       localStorage.setItem("isLogin", "TRUE");
       localStorage.setItem("email", email.value);
       router.push("/home");
     } else {
-      alert("로그인 실패: 이메일 또는 비밀번호를 확인하세요.");
+      modal.open({
+        title: "로그인 실패",
+        message: `이메일 또는 비밀번호를 확인 하세요`,
+      });
     }
   } catch (err) {
-    alert(`서버 통신 에러 : ${err}`);
+    modal.open({
+      title: "로그인 실패",
+      message: `서버 통신 실패 : 에러 코드를 확인 하세요`,
+    });
   }
 }
 </script>

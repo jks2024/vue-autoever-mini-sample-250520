@@ -1,12 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../pages/Home.vue";
-import About from "../pages/About.vue";
-import Profile from "../pages/Profile.vue";
 import Login from "../pages/Login.vue";
 import Signup from "../pages/Signup.vue";
 import Members from "../pages/Members.vue";
 import Layout from "../Layout.vue";
 import ThemeSetting from "../pages/ThemeSetting.vue";
+import News from "../pages/News.vue";
 
 const routes = [
   { path: "/", component: Login },
@@ -18,6 +17,7 @@ const routes = [
       { path: "", component: Home },
       { path: "/members", component: Members },
       { path: "/theme", component: ThemeSetting },
+      { path: "/news", component: News },
     ],
   },
 ];
