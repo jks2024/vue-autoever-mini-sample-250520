@@ -9,7 +9,7 @@
       </button>
       <button
         class="bg-transparent border border-white text-white font-semibold py-6 rounded-lg"
-        @click="navigateTo('/boards')"
+        @click="navigateTo('/board')"
       >
         게시판
       </button>
