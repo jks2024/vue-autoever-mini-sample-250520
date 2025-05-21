@@ -54,7 +54,6 @@
 
 <script setup>
 import { reactive, ref, computed } from "vue";
-import axios from "axios";
 import BaseButton from "../components/base/BaseButton.vue";
 import BaseInput from "../components/base/BaseInput.vue";
 import { useRouter } from "vue-router";
@@ -87,8 +86,9 @@ const validateEmail = async () => {
     isEmailValid.value = false;
     return;
   }
-
-  const res = await exists(from.email);
+  console.log(form.email);
+  const res = await exists(form.email);
+  console.log(res.data);
   if (res.data) {
     emailMessage.value = "사용 가능한 이메일입니다.";
     isEmailValid.value = true;

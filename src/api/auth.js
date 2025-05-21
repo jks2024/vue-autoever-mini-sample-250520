@@ -8,7 +8,7 @@ export const useAuthApi = () => {
     return await axios.post("/auth/login", { email, pwd });
   };
   const exists = async (email) => {
-    return await axios.post(`/auth/exists/${email}`);
+    return await axios.get(`/auth/exists/${email}`);
   };
   return { login, signup, exists };
 };

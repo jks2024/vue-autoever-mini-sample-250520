@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-y-auto max-h-96">
-    <CateListItem
+    <CateItem
       v-for="cate in cates"
       :key="cate.categoryId"
       :cate="cate"
