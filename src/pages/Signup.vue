@@ -58,6 +58,9 @@ import axios from "axios";
 import BaseButton from "../components/base/BaseButton.vue";
 import BaseInput from "../components/base/BaseInput.vue";
 import { useRouter } from "vue-router";
+import { useAuthApi } from "../api/auth";
+const { signup, exists } = useAuthApi();
+
 const router = useRouter();
 
 // ✅ 상태 정의: 하나의 객체로 통합
@@ -85,10 +88,7 @@ const validateEmail = async () => {
     return;
   }
 
-  //const available = await exists(form.email);
-  const res = await axios.get(
-    `http://222.117.237.119:8111/auth/exists/${form.email}`
-  );
+  const res = await exists(from.email);
   if (res.data) {
     emailMessage.value = "사용 가능한 이메일입니다.";
     isEmailValid.value = true;
@@ -132,26 +132,11 @@ const canSubmit = computed(
 
 // 제출 처리
 const submit = async () => {
-  try {
-    const payload = {
-      email: form.email,
-      pwd: form.password,
-      name: form.name,
-    };
-    const res = await axios.post(
-      "http://222.117.237.119:8111/auth/signup",
-      payload
-    );
-    console.log(res.data);
-    if (res.data) {
-      alert("회원 가입 성공");
-      router.push("/");
-    } else {
-      alert("회원 가입 실패");
-    }
-  } catch (err) {
-    console.error(err);
-    alert("가입 실패! 서버 오류 발생");
+  const res = await signup(form.email, form.password, form.name);
+  if (res.data) {
+    router.push("/");
+  } else {
+    alert("회원 가입에 실패 했습니다.");
   }
 };
 </script>

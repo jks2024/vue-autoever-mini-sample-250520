@@ -42,53 +42,48 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import axios from "axios";
 import { useRouter } from "vue-router";
-const router = useRouter();
 import { useModalStore } from "@/stores/modal";
+import { useAuthApi } from "../api/auth";
+
+const router = useRouter();
 const modal = useModalStore();
+const { login } = useAuthApi();
 
 const email = ref("");
 const pw = ref("");
 
-// 로그인 조건: 이메일과 비밀번호가 모두 입력되었을 때
 const canLogin = computed(() => email.value.length > 0 && pw.value.length > 0);
-
-const loginAction = () => {
-  localStorage.setItem("isLogin", "TRUE");
-  localStorage.setItem("email", email.value);
-  router.push("/home");
-};
 
 async function onLogin() {
   if (!canLogin.value) return;
 
   try {
-    //const user = await login(id.value, pw.value);
-    const payload = {
-      email: email.value,
-      pwd: pw.value,
-    };
-    const res = await axios.post(
-      "http://222.117.237.119:8111/auth/login",
-      payload
-    );
+    const res = await login(email.value, pw.value);
+
     if (res.data) {
       modal.open({
-        title: "로그인 성공",
-        message: `${email.value} 로 로그인에 성공 했습니다`,
-        onConfirm: loginAction,
+        title: "로그인 완료",
+        message: "환영합니다!",
+        hasCancel: false,
+        onConfirm: () => {
+          localStorage.setItem("isLogin", "TRUE");
+          localStorage.setItem("email", email.value);
+          router.push("/home");
+        },
       });
     } else {
       modal.open({
         title: "로그인 실패",
         message: `이메일 또는 비밀번호를 확인 하세요`,
+        hasCancel: false,
       });
     }
   } catch (err) {
     modal.open({
       title: "로그인 실패",
       message: `서버 통신 실패 : 에러 코드를 확인 하세요`,
+      hasCancel: false,
     });
   }
 }
