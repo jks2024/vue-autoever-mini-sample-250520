@@ -5,24 +5,24 @@ export const useModalStore = defineStore("modal", {
     isOpen: false,
     title: "",
     message: "",
-    onConfirm: null,
+    hasCancel: false,
+    confirmCallback: null,
   }),
   actions: {
-    open({ title, message, onConfirm }) {
+    open({ title, message, hasCancel = false, onConfirm = null }) {
       this.title = title;
       this.message = message;
-      this.onConfirm = onConfirm;
+      this.hasCancel = hasCancel;
+      this.confirmCallback = onConfirm;
       this.isOpen = true;
+    },
+    confirm() {
+      if (this.confirmCallback) this.confirmCallback();
+      this.close();
     },
     close() {
       this.isOpen = false;
-      this.onConfirm = null;
-    },
-    confirm() {
-      if (typeof this.onConfirm === "function") {
-        this.onConfirm(); // ✅ 부모에서 전달한 콜백 실행
-      }
-      this.close(); // ✅ 모달 닫기
+      this.confirmCallback = null;
     },
   },
 });
